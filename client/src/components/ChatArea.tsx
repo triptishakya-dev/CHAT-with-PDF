@@ -95,15 +95,24 @@ const ChatArea: React.FC = () => {
       <ScrollArea className="h-[80vh] border rounded-lg p-3 bg-gray-50">
         <div className="space-y-6 ">
           {/* Title & Description */}
-          <div className="text-center space-y-2 bg-gray-200 py-5 rounded-xl">
-            <div className="flex items-center justify-center gap-2 text-blue-600">
-              <FileText className="w-6 h-6" />
-              <h1 className="text-2xl font-bold">Chat with PDF (RAG)</h1>
+          <div className="text-center space-y-3 bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 py-6 px-6 rounded-2xl mt-8 shadow-lg">
+            <div className="flex items-center justify-center gap-3">
+              <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                <FileText className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-4xl font-bold text-white tracking-tight">
+                Chat with PDF
+              </h1>
             </div>
-            <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+            <p className="text-white/90 max-w-2xl mx-auto text-base leading-relaxed">
               Upload your PDF and ask questions. Our AI assistant will extract
               answers from the document and provide references.
             </p>
+            <div className="flex items-center justify-center gap-2 pt-2">
+              <div className="h-1 w-12 bg-white/40 rounded-full"></div>
+              <div className="h-1 w-8 bg-white/60 rounded-full"></div>
+              <div className="h-1 w-4 bg-white/80 rounded-full"></div>
+            </div>
           </div>
           {messages.map((msg, i) => (
             <div
