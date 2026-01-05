@@ -92,19 +92,16 @@ const FileUpload = () => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex gap-3">
-          <button
-            onClick={handleFileUploadButton}
-            className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3.5 px-6 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
-          >
-            Choose File
-          </button>
-          <button
-            className="px-6 py-3.5 border-2 border-gray-200 text-gray-700 rounded-xl font-medium hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 cursor-pointer"
-          >
-            Try Example
-          </button>
-        </div>
+        {selectedFile && (
+          <div className="flex gap-3">
+            <button
+              onClick={handleFileUploadButton}
+              className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3.5 px-6 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+            >
+              Choose Another File
+            </button>
+          </div>
+        )}
 
         {/* Info Footer */}
         <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-xl border border-blue-100">
