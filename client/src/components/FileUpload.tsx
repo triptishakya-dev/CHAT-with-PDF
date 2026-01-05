@@ -44,31 +44,33 @@ const FileUpload = () => {
         </div>
 
         {/* Upload Zone */}
-        <div
-          onClick={handleFileUploadButton}
-          className="relative group cursor-pointer"
-        >
-          <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
-          <div className="relative bg-white border-2 border-dashed border-gray-300 rounded-2xl p-12 hover:border-purple-400 transition-all duration-300">
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                <UploadCloud className="w-10 h-10 text-purple-600" />
-              </div>
-              <div className="text-center">
-                <p className="text-lg font-semibold text-gray-800 mb-1">
-                  Drop your PDF here
-                </p>
-                <p className="text-sm text-gray-500">
-                  or <span className="text-purple-600 font-medium">browse</span> to choose a file
-                </p>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-gray-400 mt-2">
-                <span className="px-3 py-1 bg-gray-100 rounded-full">PDF only</span>
-                <span className="px-3 py-1 bg-gray-100 rounded-full">Max 10MB</span>
+        {!selectedFile && (
+          <div
+            onClick={handleFileUploadButton}
+            className="relative group cursor-pointer"
+          >
+            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-300"></div>
+            <div className="relative bg-white border-2 border-dashed border-gray-300 rounded-2xl p-12 hover:border-purple-400 transition-all duration-300">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-50 to-blue-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <UploadCloud className="w-10 h-10 text-purple-600" />
+                </div>
+                <div className="text-center">
+                  <p className="text-lg font-semibold text-gray-800 mb-1">
+                    Drop your PDF here
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    or <span className="text-purple-600 font-medium">browse</span> to choose a file
+                  </p>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-gray-400 mt-2">
+                  <span className="px-3 py-1 bg-gray-100 rounded-full">PDF only</span>
+                  <span className="px-3 py-1 bg-gray-100 rounded-full">Max 10MB</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Selected File Display */}
         {selectedFile && (
