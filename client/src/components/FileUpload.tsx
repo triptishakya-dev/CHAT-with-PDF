@@ -95,7 +95,7 @@ const FileUpload = () => {
         <div className="flex gap-3">
           <button
             onClick={handleFileUploadButton}
-            className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3.5 px-6 rounded-xl font-semibold shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+            className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3.5 px-6 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
           >
             {selectedFile ? "Choose Another File" : "Select File"}
           </button>
