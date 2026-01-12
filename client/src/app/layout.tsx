@@ -26,7 +26,17 @@ export const metadata: Metadata = {
   title: "Chat with PDF | RAG-Powered Assistant",
   description:
     "Upload PDFs and ask questions with AI using Retrieval-Augmented Generation.",
+  keywords: [
+    "chat",
+    "pdf",
+    "RAG",
+    "AI",
+    "assistant",
+    "document search",
+    "retrieval-augmented generation",
+  ],
 };
+
 
 export default function RootLayout({
   children,
