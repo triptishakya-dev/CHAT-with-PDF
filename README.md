@@ -1,5 +1,8 @@
 # Chat with PDF
 
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![CI](https://img.shields.io/badge/CI-pending-yellow.svg)
+
 A web application that lets users upload PDF documents and interact with them through an AI-powered chat interface. Instead of manually scanning pages, users ask natural-language questions and receive instant, context-aware answers derived from the uploaded documents.
 
 ## About this project
