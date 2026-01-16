@@ -14,7 +14,6 @@ dotenv.config();
     throw new Error(`Missing required environment variable: ${key}`);
   }
 });
-
 const worker = new Worker(
   "file-upload-queue",
   async (job) => {
@@ -56,7 +55,27 @@ const worker = new Worker(
         }
       );
 
-      await vectorStore.addDocuments(docs);
+      // ✅ Batch processing with delay to respect rate limits
+      const BATCH_SIZE = 5; // Process 5 pages at a time
+      const DELAY_MS = 3000; // Wait 3 seconds between batches (approx 20 RPM max if just embedding)
+
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      for (let i = 0; i < docs.length; i += BATCH_SIZE) {
+        const batch = docs.slice(i, i + BATCH_SIZE);
+        console.log(
+          `⏳ Processing batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(
+            docs.length / BATCH_SIZE
+          )} (${batch.length} docs)...`
+        );
+
+        await vectorStore.addDocuments(batch);
+
+        if (i + BATCH_SIZE < docs.length) {
+          console.log(`Waiting ${DELAY_MS}ms to respect rate limits...`);
+          await delay(DELAY_MS);
+        }
+      }
 
       console.log(`✅ Successfully stored ${docs.length} documents in Qdrant`);
     } catch (error) {
@@ -64,7 +83,7 @@ const worker = new Worker(
     }
   },
   {
-    concurrency: 5,
+    concurrency: 1, // Only process one file at a time
     connection: {
       host: process.env.REDIS_HOST || "localhost",
       port: parseInt(process.env.REDIS_PORT) || 6379,
