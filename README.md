@@ -76,6 +76,70 @@ This application implements a Retrieval-Augmented Generation (RAG) pattern:
 
 The system is organized into a web frontend (`client`), an API server (`server`), and background workers for ingestion and vectorization.
 
+## How it Works
+
+The application operates through two main pipelines: **Ingestion** (processing uploaded PDFs) and **Retrieval** (answering user questions). Here's a detailed breakdown of each step:
+
+### 1. Ingestion Pipeline (Upload & Process)
+
+When a user uploads a PDF document, the following steps occur:
+
+**Step 1: User Uploads PDF**
+- The user selects and uploads a PDF file through the Next.js frontend interface
+- The file is sent to the backend API server via HTTP POST request
+
+**Step 2: Queue Job Creation**
+- The backend API receives the PDF and creates a processing job
+- The job is added to a **BullMQ queue** (using Valkey/Redis as the message broker)
+- This asynchronous approach prevents blocking the UI while processing large documents
+
+**Step 3: Background Worker Processing**
+- A dedicated worker process (using LangChain) picks up the job from the queue
+- The worker extracts text content from the PDF
+- The document is split into smaller, semantically meaningful chunks (passages)
+- This chunking ensures better retrieval accuracy and fits within LLM context limits
+
+**Step 4: Generate Embeddings**
+- Each text chunk is converted into a vector embedding using **Google Gemini's embedding model**
+- Embeddings are numerical representations that capture the semantic meaning of the text
+- Similar content will have similar vector representations
+
+**Step 5: Store in Vector Database**
+- The embeddings, along with their original text chunks and metadata, are stored in **QdrantDB**
+- Qdrant is a vector database optimized for similarity search
+- The document is now indexed and ready for querying
+
+### 2. Retrieval Pipeline (Search & Chat)
+
+When a user asks a question about their uploaded documents:
+
+**Step 1: User Asks Question**
+- The user types a natural language question in the chat interface
+- The question is sent to the backend API
+
+**Step 2: Semantic Search**
+- The user's question is converted into a vector embedding (using the same Gemini model)
+- QdrantDB performs a **semantic similarity search** to find the most relevant text chunks
+- Unlike keyword search, this finds passages that are conceptually related to the question
+- The top-k most relevant chunks are retrieved (typically 3-5 passages)
+
+**Step 3: Generate Answer with Context**
+- The retrieved text chunks are combined with the user's question
+- This combined context is sent to the **Gemini LLM** (Large Language Model)
+- The LLM generates a natural, accurate answer based on the provided context
+- The answer is grounded in the actual document content, reducing hallucinations
+
+**Step 4: Return Answer with Sources**
+- The generated answer is sent back to the frontend
+- Source references (which chunks were used) are included
+- The user sees the answer along with citations to the original document sections
+
+### Architecture Diagram
+
+![Chat with PDF RAG Architecture](image1.png)
+
+The diagram above illustrates the complete data flow through both pipelines, showing how different technologies work together to enable intelligent document chat.
+
 ## Project structure
 
 - `client/` — Next.js frontend (app router), authentication, UI components.
