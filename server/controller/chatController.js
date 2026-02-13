@@ -18,7 +18,6 @@ export const chatController = async (req, res) => {
       apiKey: process.env.GEMINI_API_KEY,
     });
 
-    // ✅ Connect to Qdrant
     console.log("🔹 Connecting to Qdrant at:", process.env.QDRANT_URL);
     const vectorStore = await QdrantVectorStore.fromExistingCollection(
       embedding,
